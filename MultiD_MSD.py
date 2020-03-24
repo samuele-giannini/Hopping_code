@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pylab import *
 import os
+import math
 from math import factorial
 from scipy.optimize import curve_fit
 from scipy import stats
@@ -61,6 +62,55 @@ def calculate_rate(coupling, reorganization, free_energy, temperature, method, f
     rate = expo*factor / 0.024188  # 1au = 0.02418884 fs
     return rate # in fs-1
 
+import math
+import numpy as np
+
+
+def calculate_rate_MLJ(coupling, lambS, lambI, free_energy, W0, temperature):
+    """ This calculated the quantized Marcus-Levitch-Jortner rate according to Cupellini 2017 paper
+        Inputs:
+          - Coupling [meV]
+          - lambS [meV] : Classical reorganization energy (called also solvent reorganization)
+          - lambI [meV]: Quantum reorganization energy (that could be derived from the 4 point scheme)
+          - free_energy [meV]
+          - W0 [s-1]: which is the angular frequency of the quantized mode
+          - temperature [K]
+
+        Outputs:
+          - rate in s-1
+
+    """
+
+    hbar  = 6.58211928E-16 # eV*s
+    kboltz = 8.617333262145E-5  # eV
+
+    #Convert everything in eV
+    coupling = coupling*1e-3
+    lambS = lambS*1e-3
+    lambI = lambI*1e-3
+    free_energy = free_energy*1e-3
+    
+    # Huang-Rhys factor for the quantum mode
+    S = lambI/(hbar*W0)
+    KT = temperature*kboltz
+
+    FCS = 0.0
+    control = 0.0
+    j = 0
+    while True:
+        FCS += math.exp(-S)*S**j/(math.factorial(j))*math.exp(-(free_energy +lambS+j*hbar*W0)**2/(4*lambS*KT))
+        control += math.exp(-S)*S**j/(math.factorial(j))
+        #print j,control,FCS
+        if 1.0 - control < 1e-14: break
+        j += 1
+    
+    
+    J = math.sqrt(1/(4*math.pi*lambS*KT))*FCS
+    rate_s   = 2*math.pi*(J*coupling**2)/hbar # s^-1
+    #print 'k(M.L.J.) =', rate_s, 's^-1'
+    
+    rate = rate_s*1e15 # convert in fs-1
+    return rate
 
 
 def get_eigen(matrix):
