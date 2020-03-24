@@ -286,7 +286,6 @@ if __name__ == '__main__':
              'free_energy_bias' : [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #meV ----provide list for all pairs  
              'frequency' : [1601, 1601,1601,1601,1601,1601,],  # frequency cm-1 -----provide list for all pairs
              'Temperature' : 300, #Kelvin
-             'Method rate calc' : 'NA', #this can be Marcus = "NA", Jacob mod = "TOT" or adiab
             'connectivity' : general_path + "connectivity.dat",     
             'coordinates' : general_path + "coordinates.dat",     
              'connectivity_create' : general_path + "connectivity_created.dat" ,
@@ -295,6 +294,11 @@ if __name__ == '__main__':
             'range linear fit' : slice(500, 1000), #range for the linear fit depending on the number of total steps
             'Time step' : 0.1 , #fs
             'Read_connectivity' : True, # if true you mast supply connectivity file in which pbc are or are not included
+             'Method rate calc' : 'NA', #this can be Marcus = "NA", Jacob mod = "TOT", or MLJ_rate for quantized rate
+            # if MLJ_rate is provided 
+              "lambda_classical"  : [152.0, 152.0, 152.0, 152.0, 152.0, 152.0, ], #meV
+              "lambda_quantum"    : [152.0, 152.0, 152.0, 152.0, 152.0, 152.0, ], # meV 
+              'frequency_quantum' : [1601, 1601,1601,1601,1601,1601,],  # angualar freq in s-1
         },
         
     }
@@ -339,8 +343,11 @@ if __name__ == '__main__':
     
         coord_file = select_list_dir_2_plot[system]['coordinates']
         starting_pos = select_list_dir_2_plot[system]['start_position']
-    #    sita = [float(i)*3.1415926/180 for i in select_list_dir_2_plot[system]['Angles_around_mol_in_herringbone']]
-    #    gama = [float(i)*3.1415926/180 for i in select_list_dir_2_plot[system]['Angle_gamma']]
+
+        if (method=="MLJ_rate"):
+            lambS = select_list_dir_2_plot[system]["lambda_classical"]
+            lambI =  select_list_dir_2_plot[system]["lambda_quantum"]
+            W0 =    select_list_dir_2_plot[system]['frequency_quantum']
         
         # check if you want to use PBC or not
         if pbc:
@@ -372,7 +379,14 @@ if __name__ == '__main__':
             #below is the line actually implemented in the matlab code from where I took this
             #w =(v*v/6.5821192569654e-16)*((3.1415926/(e1[i]*0.026))**0.5)*np.exp(-e1[i]/(4*temperature*8.617333*1e-5))    
             #you can just give more line as input my rate matches the published
-            rate = calculate_rate(coupling=hab[i], reorganization=lambda_[i], free_energy=free_energy[i], temperature=temperature,
+            if (method=="MLJ_rate"):
+                # calculate the quantum MLJ rate
+                rate = calculate_rate_MLJ(coupling=hab[i], lambS=lambS[i], lambI=lambI[i], 
+                                                         free_energy=free_energy[i], W0=W0[i], temperature=temperature)
+            else:
+                # evaluate rate as specified in the input 
+                rate = calculate_rate(coupling=hab[i], reorganization=lambda_[i], 
+                                                              free_energy=free_energy[i], temperature=temperature,
                                method=method, frequency=frequency[i])###*1e15 #convertion to second-1
             print "rate %s: %s fs-1" %(str(i+1), rate)
             
