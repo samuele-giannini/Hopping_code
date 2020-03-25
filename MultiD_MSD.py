@@ -109,7 +109,7 @@ def calculate_rate_MLJ(coupling, lambS, lambI, free_energy, W0, temperature):
     rate_s   = 2*math.pi*(J*coupling**2)/hbar # s^-1
     #print 'k(M.L.J.) =', rate_s, 's^-1'
     
-    rate = rate_s*1e15 # convert in fs-1
+    rate = rate_s*1e-15 # convert in fs-1
     return rate
 
 
@@ -206,10 +206,10 @@ def build_kinetic_matrix(natom, connectivity_list, interaction_dict):
     for diag in range(natom):
         # sum the column elements to keep detailed balance
         k_matrix[diag,diag] = -sum(k_matrix[diag,:])
-    print "\n"
-    print "Kmatrix \n"
-    print('\n'.join([''.join(['{:20}'.format(item) for item in row]) 
-      for row in k_matrix]))
+    #print "\n"
+    #print "Kmatrix \n"
+    #print('\n'.join([''.join(['{:20}'.format(item) for item in row]) 
+    #  for row in k_matrix]))
     return k_matrix
 
 
