@@ -66,6 +66,23 @@ import math
 import numpy as np
 
 
+def calculate_rate_from_spectral_overlap(coupling, spectral_overlap):
+    """
+    formula: K = 2\pi/\bar *V^2 *J
+    Inputs:
+        - Coupling [meV]
+        - spectral_overlap [eV^-1]
+     """
+    hbar  = 6.58211928E-16 # eV*s
+    
+    #Convert everything in eV
+    coupling = coupling*1e-3
+    
+    rate_s   = 2*math.pi*(spectral_overlap*coupling**2)/hbar # s^-1
+    rate = rate_s*1e-15 # convert in fs-1
+    return rate
+
+
 def calculate_rate_MLJ(coupling, lambS, lambI, free_energy, W0, temperature):
     """ This calculated the quantized Marcus-Levitch-Jortner rate according to Cupellini 2017 paper
         Inputs:
@@ -294,11 +311,13 @@ if __name__ == '__main__':
             'range linear fit' : slice(500, 1000), #range for the linear fit depending on the number of total steps
             'Time step' : 0.1 , #fs
             'Read_connectivity' : True, # if true you mast supply connectivity file in which pbc are or are not included
-             'Method rate calc' : 'NA', #this can be Marcus = "NA", Jacob mod = "TOT", or MLJ_rate for quantized rate
+             'Method rate calc' : 'NA', #this can be Marcus = "NA", Jacob mod = "TOT", "MLJ_rate" for quantized rate, "SO" for spectral overlap
             # if MLJ_rate is provided 
               "lambda_classical"  : [152.0, 152.0, 152.0, 152.0, 152.0, 152.0, ], #meV
               "lambda_quantum"    : [152.0, 152.0, 152.0, 152.0, 152.0, 152.0, ], # meV 
               'frequency_quantum' : [1601, 1601,1601,1601,1601,1601,],  # angualar freq in s-1
+            # if SO provided
+              "Spectral_overlap" : [0.35, 0.35, 0.35, 0.35, 0.35, 0.35,]  # in eV^-1
         },
         
     }
@@ -348,6 +367,8 @@ if __name__ == '__main__':
             lambS = select_list_dir_2_plot[system]["lambda_classical"]
             lambI =  select_list_dir_2_plot[system]["lambda_quantum"]
             W0 =    select_list_dir_2_plot[system]['frequency_quantum']
+        elif (method=="SO"):
+            spectral_overlap= select_list_dir_2_plot[system]["Spectral_overlap"]    
         
         # check if you want to use PBC or not
         if pbc:
@@ -383,6 +404,10 @@ if __name__ == '__main__':
                 # calculate the quantum MLJ rate
                 rate = calculate_rate_MLJ(coupling=hab[i], lambS=lambS[i], lambI=lambI[i], 
                                                          free_energy=free_energy[i], W0=W0[i], temperature=temperature)
+            elif (method=="SO"):
+                # use provided spectral overlap to calculate rate
+                rate = calculate_rate_from_spectral_overlap(coupling=hab[i], spectral_overlap=spectral_overlap[i])
+
             else:
                 # evaluate rate as specified in the input 
                 rate = calculate_rate(coupling=hab[i], reorganization=lambda_[i], 
