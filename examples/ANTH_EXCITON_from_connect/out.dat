@@ -1,0 +1,42 @@
+SYSTEM: ANT_MLJ
+CONNECTIVITY IS READ FROM EXTERNAL FILE
+number of interactions : 4500
+rate 1: 0.00117187682295 fs-1
+rate 2: 6.1430901941e-05 fs-1
+rate 3: 6.1430901941e-05 fs-1
+SIMMETRY True
+DIAGONALIZATION FINISHED
+Linear mob. from <L^2> in xx = \sum_i Pi*(iL)^2 is: 0.00871 cm2.(V.s)-1
+Linear mob. from <L^2> in xy = \sum_i Pi*(iL)^2 is: -0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in xz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in yy = \sum_i Pi*(iL)^2 is: 0.16960 cm2.(V.s)-1
+Linear mob. from <L^2> in yz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in zz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+SYSTEM: ANT_Marcus
+CONNECTIVITY IS READ FROM EXTERNAL FILE
+number of interactions : 4500
+rate 1: 8.7151590822e-05 fs-1
+rate 2: 4.5685696013e-06 fs-1
+rate 3: 4.5685696013e-06 fs-1
+SIMMETRY True
+DIAGONALIZATION FINISHED
+Linear mob. from <L^2> in xx = \sum_i Pi*(iL)^2 is: 0.00065 cm2.(V.s)-1
+Linear mob. from <L^2> in xy = \sum_i Pi*(iL)^2 is: -0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in xz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in yy = \sum_i Pi*(iL)^2 is: 0.01261 cm2.(V.s)-1
+Linear mob. from <L^2> in yz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in zz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+SYSTEM: ANT_Spec_Over
+CONNECTIVITY IS READ FROM EXTERNAL FILE
+number of interactions : 4500
+rate 1: 0.00294710129389 fs-1
+rate 2: 0.000154489863653 fs-1
+rate 3: 0.000154489863653 fs-1
+SIMMETRY True
+DIAGONALIZATION FINISHED
+Linear mob. from <L^2> in xx = \sum_i Pi*(iL)^2 is: 0.02190 cm2.(V.s)-1
+Linear mob. from <L^2> in xy = \sum_i Pi*(iL)^2 is: -0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in xz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in yy = \sum_i Pi*(iL)^2 is: 0.42651 cm2.(V.s)-1
+Linear mob. from <L^2> in yz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
+Linear mob. from <L^2> in zz = \sum_i Pi*(iL)^2 is: 0.00000 cm2.(V.s)-1
