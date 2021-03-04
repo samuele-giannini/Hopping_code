@@ -279,9 +279,7 @@ def check_symmetric(a, rtol=1e-05, atol=1e-08):
 
 
 
-
-
-############################## MAIN ######################################################################
+############################   INPUT   ######################################################################
 
 if __name__ == '__main__':
 
@@ -293,31 +291,31 @@ if __name__ == '__main__':
     general_path = "./"
     
     select_list_dir_2_plot = {
-        
+        # name of the system  
         'RUB_AOM':{    
             'npairs'  : 6, # provide number of pairs
-             'Coupling' : [101.8, 10, 20, 30, 40, 50], #meV ---- provide list of couplings for all pairs
-             'msd_length' : [8.75, ],  # distances Angstrom for each pair of molecules considered, not necessary is PBC is used 
+             'Coupling' : [101.8, 10, 20, 30, 40, 50], #meV ---- provide list of couplings for all pairs (Remeber to give them in absolute value)
+             'msd_length' : [8.75, ],  # distances Angstrom for each pair of molecules considered, not necessary if PBC is used 
                                        # this is only needed when one wants to reconstruct connectivity directly from pairs distance
              'Reorg energy' : [152.0, 152.0, 152.0, 152.0, 152.0, 152.0, ], #meV ----provide list for all pairs
-             'free_energy_bias' : [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #meV ----provide list for all pairs  
-             'frequency' : [1601, 1601,1601,1601,1601,1601,],  # frequency cm-1 -----provide list for all pairs
+             'free_energy_bias' : [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], #meV ----provide list for all pairs  (the implementation if for the moment only valid for 0.0 bias)
+             'frequency' : [1601, 1601,1601,1601,1601,1601,],  # frequency cm-1 -----provide list for all pairs (usefull only for some rates equations)
              'Temperature' : 300, #Kelvin
             'connectivity' : general_path + "connectivity.dat",     
             'coordinates' : general_path + "coordinates.dat",     
+            'Read_connectivity' : True, # if true, you mast supply connectivity file created manually (with or without PBC)
              'connectivity_create' : general_path + "connectivity_created.dat" ,
             'start_position' : 0, # 0-based stating position
             'number of steps' : 1000, #tot number of steps, 
             'range linear fit' : slice(500, 1000), #range for the linear fit depending on the number of total steps
             'Time step' : 0.1 , #fs
-            'Read_connectivity' : True, # if true you mast supply connectivity file in which pbc are or are not included
              'Method rate calc' : 'NA', #this can be Marcus = "NA", Jacob mod = "TOT", "MLJ_rate" for quantized rate, "SO" for spectral overlap
-            # if MLJ_rate is provided 
+            # below stuff for MLJ_rate only
               "lambda_classical"  : [152.0, 152.0, 152.0, 152.0, 152.0, 152.0, ], #meV
               "lambda_quantum"    : [152.0, 152.0, 152.0, 152.0, 152.0, 152.0, ], # meV 
               'frequency_quantum' : [1601, 1601,1601,1601,1601,1601,],  # angualar freq in s-1
             # if SO provided
-              "Spectral_overlap" : [0.35, 0.35, 0.35, 0.35, 0.35, 0.35,]  # in eV^-1
+              "Spectral_overlap" : [0.35, 0.35, 0.35, 0.35, 0.35, 0.35,]  # in eV^-1 (only useful if MLJ is used)
         },
         
     }
@@ -325,7 +323,7 @@ if __name__ == '__main__':
     # Multiple systems can be done one after the other by providing the appropriate parameters
     systems_list = [ 'RUB_AOM']
     
-    #############################################   CODE ############################################
+    #############################################  MAIN  CODE ############################################
 
 
     params = {
@@ -514,7 +512,7 @@ if __name__ == '__main__':
         plt.xlabel('Time (fs)')
         plt.ylabel( r"MSD ($\AA^2$)")
         lgd = plt.legend(frameon=False, bbox_to_anchor=(1.1, 1.0))
-        plt.tight_layout()
+        #plt.tight_layout()
         plt.savefig('MSD-%s' % system, bbox_inches='tight', bbox_extra_artists=(lgd,))
         #plt.show()
         
