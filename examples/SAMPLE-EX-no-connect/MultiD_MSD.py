@@ -293,13 +293,13 @@ if __name__ == '__main__':
     select_list_dir_2_plot = {
         # name of the system  
         'RUB_AOM':{    
-            'npairs'  : 3, # provide number of pairs
-             'Coupling' : [29.7, 6.8, 6.8], #meV ---- provide list of couplings for all pairs (Remeber to give them in absolute value)
-             'msd_length' : [6.04, 5.24, 5.24 ],  # distances Angstrom for each pair of molecules considered, not necessary if connectivity.dat is provided
+            'npairs'  : 4, # provide number of pairs
+             'Coupling' : [40.0, 29.7, 6.8, 6.8], #meV ---- provide list of couplings for all pairs (Remeber to give them in absolute value)
+             'msd_length' : [12.08, 6.04, 5.24, 5.24 ],  # distances Angstrom for each pair of molecules considered, not necessary if connectivity.dat is provided
                                        # this is only needed when one wants to reconstruct connectivity directly from pairs distance
-             'Reorg energy' : [560.7, 560.7, 560.7 ], #meV ----provide list for all pairs
-             'free_energy_bias' : [0.0, 0.0, 0.0], #meV ----provide list for all pairs  (the implementation if for the moment only valid for 0.0 bias)
-             'frequency' : [1601, 1601,1601],  # frequency cm-1 -----provide list for all pairs (usefull only for some rates equations)
+             'Reorg energy' : [560.7, 560.7, 560.7, 560.7 ], #meV ----provide list for all pairs
+             'free_energy_bias' : [0.0, 0.0, 0.0, 0.0], #meV ----provide list for all pairs  (the implementation if for the moment only valid for 0.0 bias)
+             'frequency' : [1601, 1601, 1601,1601],  # frequency cm-1 -----provide list for all pairs (usefull only for some rates equations)
              'Temperature' : 300, #Kelvin
             'connectivity' : general_path + "connectivity.dat",     
             'coordinates' : general_path + "coordinates.dat",     
@@ -308,7 +308,7 @@ if __name__ == '__main__':
             'start_position' : 808, # 0-based stating position
             'number of steps' : 1000, #tot number of steps, 
             'range linear fit' : slice(500, 1000), #range for the linear fit depending on the number of total steps
-            'Time step' : 0.1 , #fs
+            'Time step' : 0.5 , #fs
              'Method rate calc' : 'NA', #this can be Marcus = "NA", Jacob mod = "TOT", "MLJ_rate" for quantized rate, "SO" for spectral overlap
             # below stuff for MLJ_rate only
               "lambda_classical"  : [124.7, 124.7, 124.7 ], #meV
